@@ -2,9 +2,22 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
-<title>野球</title>
+<title>掲示板</title>
 </head>
 <body>
+
+<!-- 投稿の入力欄 -->
+	<form th:action="@{/article/receive}" th:object="${articleForm}">
+		投稿者名：
+		<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red">error!</div>
+		<input type="text" th:field="*{name}"><br>
+		投稿内容：<br> 
+		<div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" style="color: red">error!</div>
+		<textarea cols="40" rows="5" th:field="*{content}"></textarea><br>
+		<button>記事投稿</button>
+	</form>
+	<hr>
+<!-- 投稿の表示 -->
 	<div th:each="article : ${articleList}" th:object="${article}">
 		投稿者名：<span th:text="*{name}"></span><br> 投稿内容：<br> 
 		<div style="font-size : 15px"

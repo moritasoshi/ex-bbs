@@ -13,7 +13,7 @@ import com.example.domain.Article;
 
 @Repository
 public class ArticleRepository {
-	
+
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 
@@ -47,6 +47,19 @@ public class ArticleRepository {
 		List<Article> articleList = template.query(sql, ARTICLE_ROW_MAPPER);
 		return articleList;
 
+	}
+
+	/**
+	 * Insertメソッド
+	 * 
+	 * @param article
+	 */
+	public Article insert(Article article) {
+		String sql = "INSERT INTO articles(name, content) VALUES(:name, :content)";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", article.getName()).addValue("content",
+				article.getContent());
+		template.update(sql, param);
+		return article;
 	}
 
 }

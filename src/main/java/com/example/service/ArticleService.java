@@ -12,11 +12,15 @@ import com.example.repository.ArticleRepository;
 @Service
 @Transactional
 public class ArticleService {
-	
+
 	@Autowired
 	private ArticleRepository repository;
 
 	public List<Article> findAll() {
 		return repository.findAll();
+	}
+
+	public Article insert(Article article) {
+		return repository.insert(article);
 	}
 }
