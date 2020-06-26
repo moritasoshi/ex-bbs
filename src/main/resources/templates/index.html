@@ -18,10 +18,14 @@
 	</form>
 	<hr>
 <!-- 投稿の表示 -->
-	<div th:each="article : ${articleList}" th:object="${article}">
-		投稿者名：<span th:text="*{name}"></span><br> 投稿内容：<br> 
-		<div style="font-size : 15px"
-			th:text="*{content}"></div>
+	<div th:each="article : ${tableMap}">
+		投稿者名：<span th:text="${article.key.name}"></span><br> 投稿内容：<br> 
+		<div style="font-size : 15px"th:text="${article.key.content}"></div>
+		<!-- コメントの表示 -->
+		<div th:each="comment : *{article.value}" th:object="${comment}">
+		コメント者名：<span th:text="*{name}"></span><br> コメント内容：<br> 
+		<div style="font-size : 15px"th:text="*{content}"></div>
+		</div>
 	</div>
 </body>
 </html>

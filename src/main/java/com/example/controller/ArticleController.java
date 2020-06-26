@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Article;
+import com.example.domain.Comment;
 import com.example.form.ArticleForm;
 import com.example.service.ArticleService;
 
@@ -29,8 +31,8 @@ public class ArticleController {
 
 	@RequestMapping("")
 	public String index(Model model) {
-		List<Article> articleList = service.findAll();
-		model.addAttribute("articleList", articleList);
+		Map<Article, List<Comment>> tableMap = service.findAll();
+		model.addAttribute("tableMap", tableMap);
 		return "index";
 	}
 
