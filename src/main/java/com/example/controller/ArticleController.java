@@ -67,4 +67,10 @@ public class ArticleController {
 		comment = service.commentInsert(comment);
 		return "redirect:/article";
 	}
+	
+	@RequestMapping("/delete")
+	public String delete(Integer id) {
+		service.deleteArticleAndComment(id);
+		return "redirect:/article";
+	}
 }

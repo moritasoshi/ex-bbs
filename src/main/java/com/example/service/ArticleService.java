@@ -1,6 +1,6 @@
 package com.example.service;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +25,7 @@ public class ArticleService {
 
 	public Map<Article, List<Comment>> findAll() {
 		List<Article> articleList = articleRepository.findAll();
-		Map<Article, List<Comment>> tableMap = new HashMap<>();
+		Map<Article, List<Comment>> tableMap = new LinkedHashMap<>();
 		for (Article article : articleList) {
 			Integer articleId = article.getId();
 			List<Comment> commentList = commentRepository.findByArticleId(articleId);
@@ -44,5 +44,10 @@ public class ArticleService {
 
 	public Comment commentInsert(Comment comment) {
 		return commentRepository.insert(comment);
+	}
+	
+	public void deleteArticleAndComment(Integer articleId) {
+		commentRepository.deleteByArticleId(articleId);
+		articleRepository.deleteById(articleId);
 	}
 }

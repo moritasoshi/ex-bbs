@@ -23,6 +23,13 @@
 		投稿者名：<span th:text="${article.key.name}"></span><br> 投稿内容：<br> 
 		<div style="font-size : 15px"th:text="${article.key.content}"></div>
 		<br>
+		<!-- 記事削除ボタン -->
+		<form th:action="@{/article/delete}" method="post">
+			<input type="hidden" name="id" th:value="${article.key.id}">
+			<button>記事削除</button>
+		</form>
+			<br>
+			<br>
 		<!-- コメントの表示 -->
 		<div th:each="comment : *{article.value}" th:object="${comment}">
 			コメント者名：<span th:text="*{name}"></span><br> コメント内容：<br> 

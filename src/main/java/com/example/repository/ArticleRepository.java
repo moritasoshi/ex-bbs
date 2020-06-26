@@ -26,24 +26,12 @@ public class ArticleRepository {
 	};
 
 	/**
-	 * loadメソッド
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public Article load(Integer id) {
-		String sql = "SELECT * FROM articles WHERE id=:id ORDER BY id";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
-		return template.queryForObject(sql, param, ARTICLE_ROW_MAPPER);
-	}
-
-	/**
 	 * findAllメソッド
 	 * 
 	 * @return
 	 */
 	public List<Article> findAll() {
-		String sql = "SELECT * FROM articles ORDER BY id";
+		String sql = "SELECT * FROM articles ORDER BY id DESC";
 		List<Article> articleList = template.query(sql, ARTICLE_ROW_MAPPER);
 		return articleList;
 
@@ -60,6 +48,17 @@ public class ArticleRepository {
 				article.getContent());
 		template.update(sql, param);
 		return article;
+	}
+	
+	/**
+	 * Insertメソッド
+	 * 
+	 * @param article
+	 */
+	public void deleteById(Integer id) {
+		String sql = "DELETE FROM articles WHERE id=:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql, param);
 	}
 
 }
