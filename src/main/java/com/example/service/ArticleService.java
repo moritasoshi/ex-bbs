@@ -38,7 +38,11 @@ public class ArticleService {
 		return commentRepository.findByArticleId(articleId);
 	}
 
-	public Article insert(Article article) {
+	public Article articleInsert(Article article) {
 		return articleRepository.insert(article);
+	}
+
+	public Comment commentInsert(Comment comment) {
+		return commentRepository.insert(comment);
 	}
 }

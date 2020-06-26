@@ -38,17 +38,17 @@ public class CommentRepository {
 		return commentList;
 	}
 
-//	/**
-//	 * Insertメソッド
-//	 * 
-//	 * @param article
-//	 */
-//	public Article insert(Article article) {
-//		String sql = "INSERT INTO articles(name, content) VALUES(:name, :content)";
-//		SqlParameterSource param = new MapSqlParameterSource().addValue("name", article.getName()).addValue("content",
-//				article.getContent());
-//		template.update(sql, param);
-//		return article;
-//	}
+	/**
+	 * Insertメソッド
+	 * 
+	 * @param article
+	 */
+	public Comment insert(Comment comment) {
+		String sql = "INSERT INTO comments(name, content, article_id) VALUES(:name, :content, :articleId)";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", comment.getName()).addValue("content",
+				comment.getContent()).addValue("articleId", comment.getArticleId());
+		template.update(sql, param);
+		return comment;
+	}
 
 }
