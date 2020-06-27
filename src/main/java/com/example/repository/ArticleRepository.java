@@ -53,7 +53,7 @@ public class ArticleRepository {
 		String sql = "SELECT a.id AS id, a.name AS name, a.content AS content,"
 				+ " c.id AS comment_id, c.name AS comment_name, c.content AS comment_content, c.article_id AS article_id"
 				+ " FROM articles AS a"
-				+ " JOIN comments AS c ON  a.id = c.article_id"
+				+ " LEFT JOIN comments AS c ON  a.id = c.article_id"
 				+ " ORDER BY id DESC";
 		List<ArticleAndComment> articleList = template.query(sql, ARTICLEANDCOMMENT_ROW_MAPPER);
 		articleList.forEach(System.out::println);

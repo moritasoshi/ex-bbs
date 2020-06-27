@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,15 +26,45 @@ public class ArticleService {
 	private CommentRepository commentRepository;
 
 	public Map<Article, List<Comment>> findAll() {
-		List<ArticleAndComment> articleList = articleRepository.findAll();
-		
-		Map<Article, List<Comment>> tableMap = new LinkedHashMap<>();
-//		for (Article article : articleList) {
-//			Integer articleId = article.getId();
-//			List<Comment> commentList = commentRepository.findByArticleId(articleId);
-//			tableMap.put(article, commentList);
-//		}
-		return tableMap;
+
+		List<ArticleAndComment> articleAndComments = articleRepository.findAll();
+
+		Map<Article, List<Comment>> articleMap = new LinkedHashMap<>();
+
+		List<Comment> commentList = new ArrayList<>();
+		for (ArticleAndComment articleAndComment : articleAndComments) {
+			Article article = new Article();
+			article.setId(articleAndComment.getId());
+			article.setName(articleAndComment.getName());
+			article.setContent(articleAndComment.getContent());
+
+			// すでに同じキーが存在する場合はmapから削除
+			for (Article element : articleMap.keySet()) {
+				if (element.getId() == article.getId()) {
+					articleMap.remove(element);
+				}
+			}
+
+			Comment comment = new Comment();
+			comment.setId(articleAndComment.getCommentId());
+			comment.setName(articleAndComment.getCommentName());
+			comment.setContent(articleAndComment.getCommentContent());
+			comment.setArticleId(articleAndComment.getArticleId());
+
+			// 記事IDごとにcommentListを初期化
+			if (!commentList.isEmpty()) {
+				if (commentList.get(0).getArticleId() != comment.getArticleId()) {
+					commentList = new ArrayList<>();
+				}
+			}
+
+			if(comment.getId() != null) {
+				commentList.add(comment);
+			}
+			articleMap.put(article, commentList);
+		}
+
+		return articleMap;
 	}
 
 	public List<Comment> findByArticleId(Integer articleId) {
@@ -47,9 +78,10 @@ public class ArticleService {
 	public Comment commentInsert(Comment comment) {
 		return commentRepository.insert(comment);
 	}
-	
+
 	public void deleteArticleAndComment(Integer articleId) {
 		commentRepository.deleteByArticleId(articleId);
 		articleRepository.deleteById(articleId);
 	}
+
 }
