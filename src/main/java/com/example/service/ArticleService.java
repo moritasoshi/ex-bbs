@@ -58,10 +58,14 @@ public class ArticleService {
 				}
 			}
 
-			if(comment.getId() != null) {
-				commentList.add(comment);
+			commentList.add(comment);
+			
+			if(articleAndComment.getCommentName() == null) {				
+				articleMap.put(article, null);
+			} else {
+				articleMap.put(article, commentList);
 			}
-			articleMap.put(article, commentList);
+			
 		}
 
 		return articleMap;
