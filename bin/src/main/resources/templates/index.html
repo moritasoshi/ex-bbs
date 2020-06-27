@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>掲示板</title>
+</head>
+<body>
+
+<!-- 投稿の入力欄 -->
+	<form th:action="@{/article/article-receive}" method="post" th:object="${articleForm}">
+		投稿者名：
+		<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red">error!</div>
+		<input type="text" th:field="*{name}"><br>
+		投稿内容：<br> 
+		<div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" style="color: red">error!</div>
+		<textarea cols="40" rows="5" th:field="*{content}"></textarea><br>
+		<button>記事投稿</button>
+	</form>
+	<hr>
+	<hr>
+<!-- 投稿の表示 -->
+	<div th:each="article : ${tableMap}">
+		投稿者名：<span th:text="${article.key.name}"></span><br> 投稿内容：<br> 
+		<div style="font-size : 15px"th:text="${article.key.content}"></div>
+		<br>
+		<!-- 記事削除ボタン -->
+		<form th:action="@{/article/delete}" method="post">
+			<input type="hidden" name="id" th:value="${article.key.id}">
+			<button>記事削除</button>
+		</form>
+			<br>
+			<br>
+		<!-- コメントの表示 -->
+		<div th:each="comment : *{article.value}" th:object="${comment}">
+			コメント者名：<span th:text="*{name}"></span><br> コメント内容：<br> 
+			<div style="font-size : 15px"th:text="*{content}"></div>
+		</div>
+		<!-- コメントの入力欄 -->
+		<hr>
+		<form th:action="@{/article/comment-receive}" method="post" th:object="${commentForm}">
+			コメント者名：
+			<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red">error!</div>
+			<input type="text" th:field="*{name}"><br>
+			コメント内容：<br> 
+			<div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" style="color: red">error!</div>
+			<textarea cols="40" rows="5" th:field="*{content}"></textarea><br>
+			<input type="hidden" name="articleId" th:value="${article.key.id}">
+			<button>コメント投稿</button>
+			<hr>
+			<hr>
+		</form>
+		
+	</div>
+</body>
+</html>

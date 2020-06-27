@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Article;
+import com.example.domain.ArticleAndComment;
 import com.example.domain.Comment;
 import com.example.repository.ArticleRepository;
 import com.example.repository.CommentRepository;
@@ -24,13 +25,14 @@ public class ArticleService {
 	private CommentRepository commentRepository;
 
 	public Map<Article, List<Comment>> findAll() {
-		List<Article> articleList = articleRepository.findAll();
+		List<ArticleAndComment> articleList = articleRepository.findAll();
+		
 		Map<Article, List<Comment>> tableMap = new LinkedHashMap<>();
-		for (Article article : articleList) {
-			Integer articleId = article.getId();
-			List<Comment> commentList = commentRepository.findByArticleId(articleId);
-			tableMap.put(article, commentList);
-		}
+//		for (Article article : articleList) {
+//			Integer articleId = article.getId();
+//			List<Comment> commentList = commentRepository.findByArticleId(articleId);
+//			tableMap.put(article, commentList);
+//		}
 		return tableMap;
 	}
 
