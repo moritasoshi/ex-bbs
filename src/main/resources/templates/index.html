@@ -19,19 +19,19 @@
 	<hr>
 	<hr>
 <!-- 投稿の表示 -->
-	<div th:each="article : ${tableMap}">
-		投稿者名：<span th:text="${article.key.name}"></span><br> 投稿内容：<br> 
-		<div style="font-size : 15px"th:text="${article.key.content}"></div>
+	<div th:each="article : ${articleMap}" th:object="${article.value}">
+		投稿者名：<span th:text="*{name}"></span><br> 投稿内容：<br> 
+		<div style="font-size : 15px"th:text="*{content}"></div>
 		<br>
 		<!-- 記事削除ボタン -->
 		<form th:action="@{/article/delete}" method="post">
-			<input type="hidden" name="id" th:value="${article.key.id}">
+			<input type="hidden" name="id" th:value="*{id}">
 			<button>記事削除</button>
 		</form>
 			<br>
 			<br>
 		<!-- コメントの表示 -->
-		<div th:each="comment : *{article.value}" th:object="${comment}">
+		<div th:each="comment : *{commentList}" th:object="${comment}">
 			コメント者名：<span th:text="*{name}"></span><br> コメント内容：<br> 
 			<div style="font-size : 15px"th:text="*{content}"></div>
 		</div>
@@ -44,7 +44,7 @@
 			コメント内容：<br> 
 			<div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" style="color: red">error!</div>
 			<textarea cols="40" rows="5" th:field="*{content}"></textarea><br>
-			<input type="hidden" name="articleId" th:value="${article.key.id}">
+			<input type="hidden" name="articleId" th:value="${article.value.id}">
 			<button>コメント投稿</button>
 			<hr>
 			<hr>

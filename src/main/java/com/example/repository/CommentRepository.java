@@ -45,14 +45,15 @@ public class CommentRepository {
 	 */
 	public Comment insert(Comment comment) {
 		String sql = "INSERT INTO comments(name, content, article_id) VALUES(:name, :content, :articleId)";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("name", comment.getName()).addValue("content",
-				comment.getContent()).addValue("articleId", comment.getArticleId());
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", comment.getName())
+				.addValue("content", comment.getContent()).addValue("articleId", comment.getArticleId());
 		template.update(sql, param);
 		return comment;
 	}
-	
+
 	/**
 	 * deleteByArticleIdメソッド
+	 * 
 	 * @param articleId
 	 */
 	public void deleteByArticleId(Integer articleId) {

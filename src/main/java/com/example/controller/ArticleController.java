@@ -1,6 +1,5 @@
 package com.example.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
@@ -29,23 +28,22 @@ public class ArticleController {
 	public ArticleForm setUpArticleForm() {
 		return new ArticleForm();
 	}
-	
+
 	@ModelAttribute
 	public CommentForm setUpCommentForm() {
 		return new CommentForm();
 	}
-	
 
 	@RequestMapping("")
 	public String index(Model model) {
-		Map<Article, List<Comment>> tableMap = service.findAll();
-		model.addAttribute("tableMap", tableMap);
+		Map<Integer, Article> articleMap = service.findAll();
+		model.addAttribute("articleMap", articleMap);
 		return "index";
 	}
 
 	@RequestMapping("/article-receive")
 	public String articleReceive(@Validated ArticleForm articleForm, BindingResult result, Model model) {
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			return index(model);
 		}
 		Article article = new Article();
@@ -54,10 +52,11 @@ public class ArticleController {
 		article = service.articleInsert(article);
 		return "redirect:/article";
 	}
-	
+
 	@RequestMapping("/comment-receive")
-	public String commentReceive(@Validated CommentForm commentForm, BindingResult result, Integer articleId, Model model) {
-		if(result.hasErrors()) {
+	public String commentReceive(@Validated CommentForm commentForm, BindingResult result, Integer articleId,
+			Model model) {
+		if (result.hasErrors()) {
 			return index(model);
 		}
 		Comment comment = new Comment();
@@ -67,7 +66,7 @@ public class ArticleController {
 		comment = service.commentInsert(comment);
 		return "redirect:/article";
 	}
-	
+
 	@RequestMapping("/delete")
 	public String delete(Integer id) {
 		service.deleteArticleAndComment(id);

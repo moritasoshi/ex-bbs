@@ -23,15 +23,16 @@ public class ArticleService {
 	@Autowired
 	private CommentRepository commentRepository;
 
-	public Map<Article, List<Comment>> findAll() {
+	public Map<Integer, Article> findAll() {
+		Map<Integer, Article> articleMap = new LinkedHashMap<>();
 		List<Article> articleList = articleRepository.findAll();
-		Map<Article, List<Comment>> tableMap = new LinkedHashMap<>();
 		for (Article article : articleList) {
 			Integer articleId = article.getId();
 			List<Comment> commentList = commentRepository.findByArticleId(articleId);
-			tableMap.put(article, commentList);
+			article.setCommentList(commentList);
+			articleMap.put(articleId, article);
 		}
-		return tableMap;
+		return articleMap;
 	}
 
 	public List<Comment> findByArticleId(Integer articleId) {
@@ -45,7 +46,7 @@ public class ArticleService {
 	public Comment commentInsert(Comment comment) {
 		return commentRepository.insert(comment);
 	}
-	
+
 	public void deleteArticleAndComment(Integer articleId) {
 		commentRepository.deleteByArticleId(articleId);
 		articleRepository.deleteById(articleId);
