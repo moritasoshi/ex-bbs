@@ -18,14 +18,6 @@ public class ArticleRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 
-	private static final RowMapper<Article> ARTICLE_ROW_MAPPER = (rs, i) -> {
-		Article article = new Article();
-		article.setId(rs.getInt("id"));
-		article.setName(rs.getString("name"));
-		article.setContent(rs.getString("content"));
-		return article;
-	};
-	
 	private static final RowMapper<ArticleAndComment> ARTICLEANDCOMMENT_ROW_MAPPER = (rs, i) -> {
 		ArticleAndComment articleAndComment = new ArticleAndComment();
 		articleAndComment.setId(rs.getInt("id"));
@@ -43,18 +35,12 @@ public class ArticleRepository {
 	 * 
 	 * @return
 	 */
-//	public List<Article> findAll() {
-//		String sql = "SELECT * FROM articles ORDER BY id DESC";
-//		List<Article> articleList = template.query(sql, ARTICLE_ROW_MAPPER);
-//		return articleList;
-//
-//	}
 	public List<ArticleAndComment> findAll() {
+		//
 		String sql = "SELECT a.id AS id, a.name AS name, a.content AS content,"
 				+ " c.id AS comment_id, c.name AS comment_name, c.content AS comment_content, c.article_id AS article_id"
-				+ " FROM articles AS a"
-				+ " LEFT JOIN comments AS c ON  a.id = c.article_id"
-				+ " ORDER BY id DESC";
+				+ " FROM articles AS a" + " LEFT JOIN comments AS c ON  a.id = c.article_id"
+				+ " ORDER BY comment_id DESC";
 		List<ArticleAndComment> articleList = template.query(sql, ARTICLEANDCOMMENT_ROW_MAPPER);
 		articleList.forEach(System.out::println);
 		return articleList;
@@ -72,9 +58,9 @@ public class ArticleRepository {
 		template.update(sql, param);
 		return article;
 	}
-	
+
 	/**
-	 * Insertメソッド
+	 * deleteByIdメソッド
 	 * 
 	 * @param article
 	 */
