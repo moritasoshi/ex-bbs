@@ -59,13 +59,13 @@ public class ArticleService {
 			}
 
 			commentList.add(comment);
-			
-			if(articleAndComment.getCommentName() == null) {				
+
+			if (articleAndComment.getCommentName() == null) {
 				articleMap.put(article, null);
 			} else {
 				articleMap.put(article, commentList);
 			}
-			
+
 		}
 
 		return articleMap;
@@ -84,7 +84,6 @@ public class ArticleService {
 	}
 
 	public void deleteArticleAndComment(Integer articleId) {
-		commentRepository.deleteByArticleId(articleId);
 		articleRepository.deleteById(articleId);
 	}
 

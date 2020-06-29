@@ -36,7 +36,7 @@ public class ArticleRepository {
 	 * @return
 	 */
 	public List<ArticleAndComment> findAll() {
-		//
+		// as宣言のテーブル名は最低3文字（推奨）
 		String sql = "SELECT a.id AS id, a.name AS name, a.content AS content,"
 				+ " c.id AS comment_id, c.name AS comment_name, c.content AS comment_content, c.article_id AS article_id"
 				+ " FROM articles AS a" + " LEFT JOIN comments AS c ON  a.id = c.article_id"
@@ -64,9 +64,9 @@ public class ArticleRepository {
 	 * 
 	 * @param article
 	 */
-	public void deleteById(Integer id) {
-		String sql = "DELETE FROM articles WHERE id=:id";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+	public void deleteById(Integer articleId) {
+		String sql = "BEGIN ; DELETE FROM comments WHERE article_id=:articleId ; DELETE FROM articles WHERE id=:articleId ; COMMIT ;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("articleId", articleId);
 		template.update(sql, param);
 	}
 
