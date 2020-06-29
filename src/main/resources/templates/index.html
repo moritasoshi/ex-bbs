@@ -39,10 +39,15 @@
 		<hr>
 		<form th:action="@{/article/comment-receive}" method="post" th:object="${commentForm}">
 			コメント者名：
-			<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red">error!</div>
+			<div th:if="*{articleId} == ${article.key.id}">
+				<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red">error!</div>
+			</div>
+			
 			<input type="text" th:field="*{name}"><br>
 			コメント内容：<br> 
-			<div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" style="color: red">error!</div>
+			<div th:if="*{articleId} == ${article.key.id}">
+				<div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" style="color: red">error!</div>
+			</div>
 			<textarea cols="40" rows="5" th:field="*{content}"></textarea><br>
 			<input type="hidden" name="articleId" th:value="${article.key.id}">
 			<button>コメント投稿</button>

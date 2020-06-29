@@ -40,6 +40,7 @@ public class ArticleController {
 	public String index(Model model) {
 		Map<Article, List<Comment>> tableMap = service.findAll();
 		model.addAttribute("tableMap", tableMap);
+		
 		return "index";
 	}
 
@@ -57,7 +58,9 @@ public class ArticleController {
 	
 	@RequestMapping("/comment-receive")
 	public String commentReceive(@Validated CommentForm commentForm, BindingResult result, Integer articleId, Model model) {
+		System.out.println(result);
 		if(result.hasErrors()) {
+			commentForm.setArticleId(articleId);
 			return index(model);
 		}
 		Comment comment = new Comment();
