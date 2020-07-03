@@ -49,6 +49,8 @@ public class ArticleController {
 		if(result.hasErrors()) {
 			return index(model);
 		}
+		
+		// もとのコード
 		Article article = new Article();
 		BeanUtils.copyProperties(articleForm, article);
 		// DBへのInsert
